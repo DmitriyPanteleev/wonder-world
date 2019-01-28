@@ -7,7 +7,7 @@ import sys, termios, tty, os, time, curses
 
 # print ("Size of current terminal is %s - rows and %s - column" % (rows,columns))
 # print ("Size of current terminal is %s - rows and %s - column" % (ts.lines,ts.columns))
-
+# second commit
 # stdscr = curses.initscr()
 
 def getch():
