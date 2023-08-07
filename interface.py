@@ -5,9 +5,9 @@ class GameInterface(App):
     CSS_PATH = "GameInterface.css"
 
     def compose(self) -> ComposeResult:
-        location = Label("Location", id="location")
+        location = Label(id="location")
         location.border_title = "Location"
-        instruments = Label("Instruments", id="instruments")
+        instruments = Label(id="instruments")
         instruments.border_title = "Instruments"
         yield location
         yield instruments

@@ -1,18 +1,19 @@
 Screen > Label {
-    width: 100%;
-    height: 5;
-    content-align: center middle;
+    layout: vertical;
     color: white;
-    margin: 1;
     box-sizing: border-box;
 }
 
 #location {
+    height: 2fr;
+    width: 100%;
     border: round $secondary;
     border-title-align: left;
 }
 
 #instruments {
+    height: 1fr;
+    width: 100%;
     border: double $secondary;
     border-title-align: left;
 }
