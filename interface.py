@@ -1,13 +1,16 @@
 from textual.app import App, ComposeResult
-from textual.widgets import Static
-
+from textual.widgets import Static, Label
 
 class GameInterface(App):
     CSS_PATH = "GameInterface.css"
 
     def compose(self) -> ComposeResult:
-        yield Static("Location", classes="box")
-        yield Static("Instruments", classes="box")
+        location = Label("Location", id="location")
+        location.border_title = "Location"
+        instruments = Label("Instruments", id="instruments")
+        instruments.border_title = "Instruments"
+        yield location
+        yield instruments
 
 
 if __name__ == "__main__":

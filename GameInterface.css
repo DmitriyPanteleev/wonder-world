@@ -1,10 +1,18 @@
-Screen {
-    layout: grid;
-    grid-size: 1;
-    grid-rows: 2fr 1fr;
+Screen > Label {
+    width: 100%;
+    height: 5;
+    content-align: center middle;
+    color: white;
+    margin: 1;
+    box-sizing: border-box;
 }
 
-.box {
-    height: 1fr;
-    border: solid green;
+#location {
+    border: round $secondary;
+    border-title-align: left;
+}
+
+#instruments {
+    border: double $secondary;
+    border-title-align: left;
 }
