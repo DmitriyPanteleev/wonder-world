@@ -4,7 +4,6 @@ package gi
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/muesli/reflow/wordwrap"
 )
 
 type Model struct {
@@ -45,5 +44,5 @@ func (m Model) View() string {
 
 	content := "Map goes here"
 
-	return frameStyle.Render(wordwrap.String(content, frameWidth))
+	return frameStyle.Render(content)
 }
