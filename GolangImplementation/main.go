@@ -1,7 +1,17 @@
+// main.go
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+
+	"GolangImplementation/gi"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	p := ui.NewProgram()
+	if err := p.Start(); err != nil {
+		fmt.Fprintf(os.Stderr, "Ошибка запуска программы: %v\n", err)
+		os.Exit(1)
+	}
 }
