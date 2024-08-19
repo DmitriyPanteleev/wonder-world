@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	p := ui.NewProgram()
+	p := gi.NewProgram()
 	if err := p.Start(); err != nil {
 		fmt.Fprintf(os.Stderr, "Ошибка запуска программы: %v\n", err)
 		os.Exit(1)

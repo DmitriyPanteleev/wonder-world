@@ -35,7 +35,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
-	frameWidth := m.Width - 1
+	frameWidth := m.Width - 2
 	frameHeight := (m.Height * 2) / 3
 
 	frameStyle := lipgloss.NewStyle().
@@ -43,16 +43,7 @@ func (m Model) View() string {
 		Width(frameWidth).
 		Height(frameHeight)
 
-	contentStyle := lipgloss.NewStyle().
-		MarginTop(1).
-		MarginLeft(2)
+	content := "Map goes here"
 
-	titleStyle := lipgloss.NewStyle().
-		Align(lipgloss.Right).
-		Width(frameWidth).
-		Render("Map")
-
-	content := "Здесь может быть ваш контент"
-
-	return titleStyle + "\n" + frameStyle.Render(contentStyle.Render(content))
+	return frameStyle.Render(wordwrap.String(content, frameWidth))
 }
