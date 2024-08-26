@@ -37,27 +37,12 @@ func (m Model) View() string {
 	frameWidth := m.Width - 2
 	frameHeight := (m.Height * 2) / 3
 
-	// Создаём стиль для таба
-	tabStyle := lipgloss.NewStyle().
-		Bold(true).
-		Foreground(lipgloss.Color("#ffffff")).
-		Background(lipgloss.Color("#0000ff")).
-		Padding(0, 1).
-		MarginBottom(-1) // Поднятие таба, чтобы он выглядел прикрепленным
-
-	// Создаём стиль для рамки
 	frameStyle := lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
 		Width(frameWidth).
 		Height(frameHeight)
 
-	// Заголовок таба
-	tab := tabStyle.Render("Map")
-
-	// Содержимое рамки
 	content := "Map goes here"
-	frame := frameStyle.Render(content)
 
-	// Объединяем таб и рамку
-	return lipgloss.JoinVertical(lipgloss.Left, tab, frame)
+	return frameStyle.Render(content)
 }
