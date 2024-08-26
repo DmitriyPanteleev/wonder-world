@@ -42,7 +42,14 @@ func (m Model) View() string {
 		Width(frameWidth).
 		Height(frameHeight)
 
+	titleStyle := lipgloss.NewStyle().
+		Border(lipgloss.RoundedBorder()).
+		Width(frameWidth - 2).
+		Align(lipgloss.Center)
+
 	content := "Map goes here"
 
-	return frameStyle.Render(content)
+	title := titleStyle.Render("Map")
+
+	return frameStyle.Render(title + "\n" + content)
 }
