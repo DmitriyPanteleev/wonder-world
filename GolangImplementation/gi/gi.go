@@ -44,12 +44,12 @@ func (m Model) View() string {
 
 	titleStyle := lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
-		Width(frameWidth - 2).
-		Align(lipgloss.Center)
+		Width(frameWidth).
+		Align(lipgloss.Left)
 
 	content := "Map goes here"
 
 	title := titleStyle.Render("Map")
 
-	return frameStyle.Render(title + "\n" + content)
+	return title + frameStyle.Render(content)
 }
