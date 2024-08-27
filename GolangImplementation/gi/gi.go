@@ -39,21 +39,28 @@ func (m Model) View() string {
 	clearScreen := "\033[H\033[2J"
 
 	frameWidth := m.Width - 2
-	frameHeight := (m.Height * 2) / 3
+	mapFrameHeight := (m.Height * 2) / 3
+	statFrameHeight := m.Height - mapFrameHeight - 8
 
-	frameStyle := lipgloss.NewStyle().
+	mapFrameStyle := lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
 		Width(frameWidth).
-		Height(frameHeight)
+		Height(mapFrameHeight)
+
+	statFrameStyle := lipgloss.NewStyle().
+		Border(lipgloss.RoundedBorder()).
+		Width(frameWidth).
+		Height(statFrameHeight)
 
 	titleStyle := lipgloss.NewStyle().
 		Border(lipgloss.RoundedBorder()).
 		Width(frameWidth).
 		Align(lipgloss.Left)
 
-	content := "Map goes here"
+	mapTitle := titleStyle.Render("Map")
+	statTitle := titleStyle.Render("Stat")
+	mapContent := mapFrameStyle.Render("Map goes here")
+	statContent := statFrameStyle.Render("Str: 10 \nInt: 10")
 
-	title := titleStyle.Render("Map")
-
-	return fmt.Sprintf("%s\n%s%s", clearScreen, title, frameStyle.Render(content))
+	return fmt.Sprintf("%s\n%s%s%s%s", clearScreen, mapTitle, mapContent, statTitle, statContent)
 }
