@@ -8,6 +8,43 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+var mapMap [][]int
+
+func mapGenerator(width, height int) {
+	mapMap = make([][]int, height)
+	for i := range mapMap {
+		mapMap[i] = make([]int, width)
+	}
+	for i := range mapMap {
+		for j := range mapMap[i] {
+			if i == j {
+				mapMap[i][j] = 1
+			} else {
+				mapMap[i][j] = 0
+			}
+		}
+	}
+}
+
+func createMapContent(width, height int) string {
+	mapGenerator(width, height)
+	content := ""
+	for i := range mapMap {
+		for j := range mapMap[i] {
+			switch mapMap[i][j] {
+			case 0:
+				content += " "
+			case 1:
+				content += "#"
+			default:
+				content += " "
+			}
+		}
+		content += "\n"
+	}
+	return content
+}
+
 type Model struct {
 	Width  int
 	Height int
@@ -59,7 +96,7 @@ func (m Model) View() string {
 
 	mapTitle := titleStyle.Render("Map")
 	statTitle := titleStyle.Render("Stat")
-	mapContent := mapFrameStyle.Render("Map goes here")
+	mapContent := mapFrameStyle.Render(createMapContent(5, 5))
 	statContent := statFrameStyle.Render("Str: 10 \nInt: 10")
 
 	return fmt.Sprintf("%s\n%s%s%s%s", clearScreen, mapTitle, mapContent, statTitle, statContent)
