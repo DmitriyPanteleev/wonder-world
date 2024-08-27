@@ -2,6 +2,8 @@
 package gi
 
 import (
+	"fmt"
+
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
@@ -34,6 +36,8 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
+	clearScreen := "\033[H\033[2J"
+
 	frameWidth := m.Width - 2
 	frameHeight := (m.Height * 2) / 3
 
@@ -51,5 +55,5 @@ func (m Model) View() string {
 
 	title := titleStyle.Render("Map")
 
-	return title + frameStyle.Render(content)
+	return fmt.Sprintf("%s\n%s%s", clearScreen, title, frameStyle.Render(content))
 }
