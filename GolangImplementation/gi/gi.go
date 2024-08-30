@@ -3,14 +3,20 @@ package gi
 
 import (
 	"fmt"
+	"math/rand"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
 
 var mapMap [][]int
+var xPos, yPos int
 
 func mapGenerator(width, height int) {
+	if len(mapMap) != 0 {
+		return // Map has already been generated
+	}
+
 	mapMap = make([][]int, height)
 	for i := range mapMap {
 		mapMap[i] = make([]int, width)
@@ -24,20 +30,24 @@ func mapGenerator(width, height int) {
 			}
 		}
 	}
+	xPos = rand.Intn(width)
+	yPos = rand.Intn(height)
+	mapMap[yPos][xPos] = 8
 }
 
-func createMapContent(width, height int) string {
-	mapGenerator(width, height)
+func createMapContent() string {
 	content := ""
 	for i := range mapMap {
 		for j := range mapMap[i] {
 			switch mapMap[i][j] {
 			case 0:
-				content += " "
+				content += "."
 			case 1:
 				content += "#"
+			case 8:
+				content += "@"
 			default:
-				content += " "
+				content += "."
 			}
 		}
 		content += "\n"
@@ -55,6 +65,8 @@ func NewProgram() *tea.Program {
 }
 
 func (m Model) Init() tea.Cmd {
+	// Generate the map once during initialization
+	mapGenerator(10, 10)
 	return nil
 }
 
@@ -67,6 +79,30 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c", "q":
 			return m, tea.Quit
+		case "up":
+			if yPos > 0 {
+				mapMap[yPos][xPos] = 0
+				yPos--
+				mapMap[yPos][xPos] = 8
+			}
+		case "down":
+			if yPos < len(mapMap)-1 {
+				mapMap[yPos][xPos] = 0
+				yPos++
+				mapMap[yPos][xPos] = 8
+			}
+		case "left":
+			if xPos > 0 {
+				mapMap[yPos][xPos] = 0
+				xPos--
+				mapMap[yPos][xPos] = 8
+			}
+		case "right":
+			if xPos < len(mapMap[0])-1 {
+				mapMap[yPos][xPos] = 0
+				xPos++
+				mapMap[yPos][xPos] = 8
+			}
 		}
 	}
 	return m, nil
@@ -96,7 +132,7 @@ func (m Model) View() string {
 
 	mapTitle := titleStyle.Render("Map")
 	statTitle := titleStyle.Render("Stat")
-	mapContent := mapFrameStyle.Render(createMapContent(5, 5))
+	mapContent := mapFrameStyle.Render(createMapContent())
 	statContent := statFrameStyle.Render("Str: 10 \nInt: 10")
 
 	return fmt.Sprintf("%s\n%s%s%s%s", clearScreen, mapTitle, mapContent, statTitle, statContent)
