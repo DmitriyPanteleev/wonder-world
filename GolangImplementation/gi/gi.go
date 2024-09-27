@@ -11,6 +11,7 @@ import (
 
 var mapMap [][]int
 var xPos, yPos int
+var backupCell int
 
 func mapGenerator(width, height int) {
 	if len(mapMap) != 0 {
@@ -81,26 +82,30 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "up":
 			if yPos > 0 {
-				mapMap[yPos][xPos] = 0
+				mapMap[yPos][xPos] = backupCell
 				yPos--
+				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
 		case "down":
 			if yPos < len(mapMap)-1 {
-				mapMap[yPos][xPos] = 0
+				mapMap[yPos][xPos] = backupCell
 				yPos++
+				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
 		case "left":
 			if xPos > 0 {
-				mapMap[yPos][xPos] = 0
+				mapMap[yPos][xPos] = backupCell
 				xPos--
+				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
 		case "right":
 			if xPos < len(mapMap[0])-1 {
-				mapMap[yPos][xPos] = 0
+				mapMap[yPos][xPos] = backupCell
 				xPos++
+				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
 		}
