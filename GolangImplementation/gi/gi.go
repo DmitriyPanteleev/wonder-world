@@ -109,8 +109,6 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
-	clearScreen := "\033[H\033[2J"
-
 	frameWidth := m.Width - 2
 	mapFrameHeight := (m.Height * 2) / 3
 	statFrameHeight := m.Height - mapFrameHeight - 8
@@ -135,5 +133,5 @@ func (m Model) View() string {
 	mapContent := mapFrameStyle.Render(createMapContent())
 	statContent := statFrameStyle.Render("Str: 10 \nInt: 10")
 
-	return fmt.Sprintf("%s\n%s%s%s%s", clearScreen, mapTitle, mapContent, statTitle, statContent)
+	return fmt.Sprintf("%s%s%s%s", mapTitle, mapContent, statTitle, statContent)
 }
