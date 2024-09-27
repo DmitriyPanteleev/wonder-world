@@ -136,7 +136,7 @@ func (m Model) View() string {
 	mapTitle := titleStyle.Render("Map")
 	statTitle := titleStyle.Render("Stat")
 	mapContent := mapFrameStyle.Render(createMapContent())
-	statContent := statFrameStyle.Render("Str: 10 \nInt: 10")
+	statContent := statFrameStyle.Render("Str: 10 \nInt: 10" + fmt.Sprintf("\nX: %d Y: %d", xPos, yPos))
 
 	return fmt.Sprintf("%s%s%s%s", mapTitle, mapContent, statTitle, statContent)
 }
