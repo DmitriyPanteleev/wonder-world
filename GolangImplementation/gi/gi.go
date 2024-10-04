@@ -79,12 +79,14 @@ func (m Model) Init() tea.Cmd {
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
+		// Generate the map once we have the window size
 		m.Width = msg.Width
 		m.Height = msg.Height
 		frameWidth := m.Width - 2
 		mapFrameHeight := (m.Height * 2) / 3
-		// Generate the map using the internal map frame dimensions
 		mapGenerator(frameWidth, mapFrameHeight)
+
+	// Different actions for different key presses
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c", "q":
