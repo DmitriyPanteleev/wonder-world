@@ -22,15 +22,20 @@ func mapGenerator(width, height int) {
 	for i := range mapMap {
 		mapMap[i] = make([]int, width)
 	}
+
+	// Initialize map with 0
 	for i := range mapMap {
 		for j := range mapMap[i] {
-			if i == j {
-				mapMap[i][j] = 1
-			} else {
-				mapMap[i][j] = 0
-			}
+			mapMap[i][j] = 0
 		}
 	}
+
+	// Generate stones
+	for i := 0; i < 10; i++ {
+		mapMap[rand.Intn(height)][rand.Intn(width)] = 1
+	}
+
+	// Generate player
 	xPos = rand.Intn(width)
 	yPos = rand.Intn(height)
 	mapMap[yPos][xPos] = 8
