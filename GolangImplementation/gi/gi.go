@@ -31,7 +31,7 @@ func mapGenerator(width, height int) {
 	}
 
 	// Generate stones
-	for i := 0; i < 10; i++ {
+	for i := 0; i < width; i++ {
 		mapMap[rand.Intn(height)][rand.Intn(width)] = 1
 	}
 
@@ -67,12 +67,12 @@ type Model struct {
 }
 
 func NewProgram() *tea.Program {
+	// Initially, we do not generate the map because we need the window size first
 	return tea.NewProgram(Model{})
 }
 
 func (m Model) Init() tea.Cmd {
 	// Generate the map once during initialization
-	mapGenerator(10, 10)
 	return nil
 }
 
@@ -81,6 +81,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.WindowSizeMsg:
 		m.Width = msg.Width
 		m.Height = msg.Height
+		frameWidth := m.Width - 2
+		mapFrameHeight := (m.Height * 2) / 3
+		// Generate the map using the internal map frame dimensions
+		mapGenerator(frameWidth, mapFrameHeight)
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c", "q":
