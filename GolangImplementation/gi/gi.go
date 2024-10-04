@@ -61,6 +61,17 @@ func createMapContent() string {
 	return content
 }
 
+func checkTile(x, y int) string {
+	result := "Unknown"
+	switch mapMap[y][x] {
+	case 0:
+		result = "Empty"
+	case 1:
+		result = "Stone"
+	}
+	return result
+}
+
 type Model struct {
 	Width  int
 	Height int
@@ -95,6 +106,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if yPos > 0 {
 				mapMap[yPos][xPos] = backupCell
 				yPos--
+				if checkTile(xPos, yPos) == "Stone" {
+					yPos++
+				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
@@ -102,6 +116,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if yPos < len(mapMap)-1 {
 				mapMap[yPos][xPos] = backupCell
 				yPos++
+				if checkTile(xPos, yPos) == "Stone" {
+					yPos--
+				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
@@ -109,6 +126,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if xPos > 0 {
 				mapMap[yPos][xPos] = backupCell
 				xPos--
+				if checkTile(xPos, yPos) == "Stone" {
+					xPos++
+				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
@@ -116,6 +136,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if xPos < len(mapMap[0])-1 {
 				mapMap[yPos][xPos] = backupCell
 				xPos++
+				if checkTile(xPos, yPos) == "Stone" {
+					xPos--
+				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
