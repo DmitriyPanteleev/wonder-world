@@ -30,7 +30,7 @@ func mapGenerator(width, height int) {
 		}
 	}
 
-	// Generate stones
+	// Generate trees
 	for i := 0; i < width; i++ {
 		mapMap[rand.Intn(height)][rand.Intn(width)] = 1
 	}
@@ -43,13 +43,15 @@ func mapGenerator(width, height int) {
 
 func createMapContent() string {
 	content := ""
+	treeStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#90EE90")) // Light green color
+
 	for i := range mapMap {
 		for j := range mapMap[i] {
 			switch mapMap[i][j] {
 			case 0:
 				content += "."
 			case 1:
-				content += "#"
+				content += treeStyle.Render("#")
 			case 8:
 				content += "@"
 			default:
@@ -66,8 +68,8 @@ func checkTile(x, y int) string {
 	switch mapMap[y][x] {
 	case 0:
 		result = "Empty"
-	case 1:
-		result = "Stone"
+	case 1: // Tree
+		result = "Stop"
 	}
 	return result
 }
@@ -106,7 +108,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if yPos > 0 {
 				mapMap[yPos][xPos] = backupCell
 				yPos--
-				if checkTile(xPos, yPos) == "Stone" {
+				if checkTile(xPos, yPos) == "Stop" {
 					yPos++
 				}
 				backupCell = mapMap[yPos][xPos]
@@ -116,7 +118,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if yPos < len(mapMap)-1 {
 				mapMap[yPos][xPos] = backupCell
 				yPos++
-				if checkTile(xPos, yPos) == "Stone" {
+				if checkTile(xPos, yPos) == "Stop" {
 					yPos--
 				}
 				backupCell = mapMap[yPos][xPos]
@@ -126,7 +128,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if xPos > 0 {
 				mapMap[yPos][xPos] = backupCell
 				xPos--
-				if checkTile(xPos, yPos) == "Stone" {
+				if checkTile(xPos, yPos) == "Stop" {
 					xPos++
 				}
 				backupCell = mapMap[yPos][xPos]
@@ -136,7 +138,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if xPos < len(mapMap[0])-1 {
 				mapMap[yPos][xPos] = backupCell
 				xPos++
-				if checkTile(xPos, yPos) == "Stone" {
+				if checkTile(xPos, yPos) == "Stop" {
 					xPos--
 				}
 				backupCell = mapMap[yPos][xPos]

@@ -10,7 +10,7 @@ import (
 
 func main() {
 	p := gi.NewProgram()
-	if err := p.Start(); err != nil {
+	if _, err := p.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, "Ошибка запуска программы: %v\n", err)
 		os.Exit(1)
 	}
