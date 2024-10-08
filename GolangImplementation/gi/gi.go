@@ -11,7 +11,9 @@ import (
 
 var mapMap [][]int
 var xPos, yPos int
+var xAim, yAim int
 var backupCell int
+var playMode int
 
 func mapGenerator(width, height int) {
 	if len(mapMap) != 0 {
@@ -65,10 +67,29 @@ func createMapContent() string {
 
 func checkTile(x, y int) string {
 	result := "Unknown"
+	if x < 0 || y < 0 || y >= len(mapMap) || x >= len(mapMap[0]) {
+		return "Stop"
+	}
 	switch mapMap[y][x] {
 	case 0:
 		result = "Empty"
 	case 1: // Tree
+		result = "Stop"
+	}
+	return result
+}
+
+func checkAim(x, y int) string {
+	result := "Unknown"
+	if x < 0 || y < 0 || y >= len(mapMap) || x >= len(mapMap[0]) {
+		return "Stop"
+	}
+	switch mapMap[y][x] {
+	case 0:
+		result = "Empty"
+	case 1: // Tree
+		result = "Stop"
+	case 3: // Aim
 		result = "Stop"
 	}
 	return result
@@ -104,43 +125,43 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c", "q":
 			return m, tea.Quit
+		case "a":
+			playMode = 1
+			xAim = xPos
+			yAim = yPos
+		case "w":
+			playMode = 0
 		case "up":
-			if yPos > 0 {
+			if condition := checkTile(xPos, yPos-1); condition != "Stop" && playMode == 0 {
 				mapMap[yPos][xPos] = backupCell
 				yPos--
-				if checkTile(xPos, yPos) == "Stop" {
-					yPos++
-				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
+			if condition := checkAim(xPos, yPos-1); condition != "Stop" && playMode == 1 {
+				mapMap[yAim][xAim] = backupCell
+				yAim--
+				backupCell = mapMap[yAim][xAim]
+				mapMap[yAim][xAim] = 3
+			}
 		case "down":
-			if yPos < len(mapMap)-1 {
+			if condition := checkTile(xPos, yPos+1); condition != "Stop" && playMode == 0 {
 				mapMap[yPos][xPos] = backupCell
 				yPos++
-				if checkTile(xPos, yPos) == "Stop" {
-					yPos--
-				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
 		case "left":
-			if xPos > 0 {
+			if condition := checkTile(xPos-1, yPos); condition != "Stop" && playMode == 0 {
 				mapMap[yPos][xPos] = backupCell
 				xPos--
-				if checkTile(xPos, yPos) == "Stop" {
-					xPos++
-				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
 		case "right":
-			if xPos < len(mapMap[0])-1 {
+			if condition := checkTile(xPos+1, yPos); condition != "Stop" && playMode == 0 {
 				mapMap[yPos][xPos] = backupCell
 				xPos++
-				if checkTile(xPos, yPos) == "Stop" {
-					xPos--
-				}
 				backupCell = mapMap[yPos][xPos]
 				mapMap[yPos][xPos] = 8
 			}
